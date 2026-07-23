@@ -15,6 +15,7 @@
       <a class="brand" href="#home" aria-label="Anjitha and Harikumar home">A<span>H</span></a>
       <nav>
         <a href="#details">Details</a>
+        <a href="#calendar">Calendar</a>
         <a href="#invitation">Invitation</a>
         <a href="#gallery">Cards</a>
       </nav>
@@ -66,6 +67,49 @@
         </div>
       </section>
 
+      <section id="calendar" class="calendar-section">
+        <div class="section-heading">
+          <p>Save The Date</p>
+          <h2>Calendar countdown</h2>
+        </div>
+        <div class="calendar-layout">
+          <div class="calendar-panel" aria-label="Dynamic calendar showing today and wedding date">
+            <div class="calendar-top">
+              <button class="calendar-nav" type="button" data-calendar-prev aria-label="Previous month">&#8249;</button>
+              <div>
+                <p class="label">Month View</p>
+                <strong data-calendar-title>September 2026</strong>
+              </div>
+              <button class="calendar-nav" type="button" data-calendar-next aria-label="Next month">&#8250;</button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+            </div>
+            <div class="calendar-grid" data-calendar-grid></div>
+            <div class="calendar-legend">
+              <span><i class="today-dot"></i>Today</span>
+              <span><i class="wedding-dot"></i>Wedding day</span>
+            </div>
+          </div>
+          <aside class="date-note">
+            <span class="label">Wedding Day</span>
+            <strong>13</strong>
+            <div class="date-markers">
+              <span data-today-label>Today</span>
+              <span>Wedding: Sep 13, 2026</span>
+            </div>
+            <p>Sunday, September 13, 2026</p>
+            <p data-countdown>Counting down to the muhurtham.</p>
+          </aside>
+        </div>
+      </section>
+
       <section id="invitation" class="invitation-section">
         <div class="invitation-copy">
           <p class="label">With blessings from family</p>
@@ -78,8 +122,17 @@
           <p class="compliments">With best compliments from: Archana, Hari Krishnan and Vasuki</p>
         </div>
         <aside class="qr-panel" aria-label="Invitation quick details">
-          <img src="assets/page-2.png" alt="Wedding details card with calendar and QR code">
-          <a class="button primary" href="https://maps.google.com/?q=Swagath%20Kalyanamandapam%20Pudupariyaram%20Palakkad" target="_blank" rel="noreferrer">Open Map</a>
+          <a class="second-card-link" href="https://maps.app.goo.gl/o8i6qhpmaETJh8DE6?g_st=aw" target="_blank" rel="noreferrer" aria-label="Open venue map from second invitation page">
+            <img src="assets/page-2.png" alt="Wedding details second page with calendar and QR code">
+          </a>
+          <div class="map-qr">
+            <img src="assets/map-qr.png" alt="QR code linking to Swagath Kalyanamandapam map">
+            <div>
+              <span class="label">Venue Map</span>
+              <a href="https://maps.app.goo.gl/o8i6qhpmaETJh8DE6?g_st=aw" target="_blank" rel="noreferrer">https://maps.app.goo.gl/o8i6qhpmaETJh8DE6?g_st=aw</a>
+            </div>
+          </div>
+          <a class="button primary" href="https://maps.app.goo.gl/o8i6qhpmaETJh8DE6?g_st=aw" target="_blank" rel="noreferrer">Open Map</a>
         </aside>
       </section>
 
