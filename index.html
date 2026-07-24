@@ -1007,6 +1007,52 @@
       transition: opacity 0.35s ease;
     }
 
+    .model-loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 10;
+      background: rgba(251, 243, 230, 0.75);
+      backdrop-filter: blur(4px);
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      border-radius: 8px;
+    }
+
+    .model-loader.loaded {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .spinner-ring {
+      width: 38px;
+      height: 38px;
+      border: 2px solid rgba(180, 134, 60, 0.25);
+      border-top-color: var(--maroon, #7B2334);
+      border-right-color: var(--gold-deep, #8C6423);
+      border-radius: 50%;
+      animation: spin3D 0.9s linear infinite;
+    }
+
+    .loader-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--maroon, #7B2334);
+      font-weight: 600;
+    }
+
+    @keyframes spin3D {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     .envelope-wrap.open .envelope-flap {
       transform: rotateX(180deg);
     }
@@ -1240,7 +1286,12 @@
 
     <div class="cover-mid">
       <div class="envelope-3d-wrap" id="envelopeBtn" role="button" tabindex="0" aria-label="Open invitation">
-        <div id="envelope-3d-container"></div>
+        <div id="envelope-3d-container">
+          <div class="model-loader" id="modelLoader">
+            <div class="spinner-ring"></div>
+            <div class="loader-text">Loading 3D Invitation...</div>
+          </div>
+        </div>
         <div class="envelope-hint">Tap to open</div>
       </div>
     </div>
@@ -1751,8 +1802,26 @@
       var fallbackMesh = createProcedural3DEnvelope();
       modelGroup.add(fallbackMesh);
 
+      // 3D Asset Loading Manager & Progress Feedback
+      var loaderEl = document.getElementById('modelLoader');
+      var loadingManager = new THREE.LoadingManager();
+
+      loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
+        if (loaderEl) {
+          var pct = Math.round((itemsLoaded / itemsTotal) * 100);
+          var textEl = loaderEl.querySelector('.loader-text');
+          if (textEl) textEl.textContent = 'Loading 3D Invitation... ' + pct + '%';
+        }
+      };
+
+      loadingManager.onLoad = function () {
+        if (loaderEl) {
+          loaderEl.classList.add('loaded');
+        }
+      };
+
       // Explicit Texture Loader for Sketchfab letter model with Specular/Glossiness
-      var textureLoader = new THREE.TextureLoader();
+      var textureLoader = new THREE.TextureLoader(loadingManager);
       var diffuseMap = textureLoader.load('letter/textures/main_diffuse.jpeg');
       var normalMap = textureLoader.load('letter/textures/main_normal.png');
       var specMap = textureLoader.load('letter/textures/main_specularGlossiness.png');
@@ -1769,7 +1838,7 @@
 
       // Load 3D GLTF Model
       if (typeof THREE.GLTFLoader !== 'undefined') {
-        var loader = new THREE.GLTFLoader();
+        var loader = new THREE.GLTFLoader(loadingManager);
         loader.load('letter/scene.gltf', function (gltf) {
           var model = gltf.scene;
 
