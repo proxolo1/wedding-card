@@ -1196,10 +1196,21 @@
       background: url('wedding_bg_theme.jpg') center top / cover no-repeat;
       z-index: -2;
       opacity: 1;
-      transition: opacity 0.8s ease;
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      will-change: opacity;
+      transition: opacity 0.8s ease, transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(var(--bg-scale, 1)) translateZ(0);
+      -webkit-transform: scale(var(--bg-scale, 1)) translateZ(0);
+      transform-origin: center top;
+      will-change: opacity, transform;
+    }
+
+    @media (max-width: 768px) {
+      body::before {
+        background-position: center 25%;
+        transform-origin: center center;
+        /* Dynamic enlargement on scroll in mobile view */
+        transform: scale(var(--bg-scale, 1)) translateZ(0);
+        -webkit-transform: scale(var(--bg-scale, 1)) translateZ(0);
+      }
     }
 
     body.cover-active::before {
@@ -2145,6 +2156,37 @@
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
       });
+    })();
+  </script>
+
+  <!-- Mobile Scroll Background Enlargement Script -->
+  <script>
+    (function () {
+      var ticking = false;
+
+      function updateBackgroundScale() {
+        var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+        var maxScroll = Math.max(1, (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight);
+        var scrollRatio = Math.min(1, Math.max(0, scrollY / maxScroll));
+
+        // Enlarge background image as user scrolls down (Base 1.0 up to 1.45x scale on mobile)
+        var scaleAmount = window.innerWidth <= 768 ? 0.45 : 0.30;
+        var newScale = (1 + scrollRatio * scaleAmount).toFixed(4);
+
+        document.body.style.setProperty('--bg-scale', newScale);
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(updateBackgroundScale);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', updateBackgroundScale);
+      document.addEventListener('DOMContentLoaded', updateBackgroundScale);
+      updateBackgroundScale();
     })();
   </script>
 
