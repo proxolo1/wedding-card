@@ -1203,15 +1203,14 @@
       will-change: opacity, transform;
     }
 
-    @media (max-width: 768px) {
+    /* @media (max-width: 768px) {
       body::before {
         background-position: center 25%;
         transform-origin: center center;
-        /* Dynamic enlargement on scroll in mobile view */
         transform: scale(var(--bg-scale, 1)) translateZ(0);
         -webkit-transform: scale(var(--bg-scale, 1)) translateZ(0);
       }
-    }
+    } */
 
     body.cover-active::before {
       opacity: 0;
@@ -1841,7 +1840,7 @@
         var canvas = document.createElement('canvas');
         canvas.width = 256; canvas.height = 256;
         var ctx = canvas.getContext('2d');
-        
+
         // Deep Wax Red Base
         ctx.fillStyle = '#7B2334';
         ctx.fillRect(0, 0, 256, 256);
@@ -1987,7 +1986,7 @@
                   child.material.normalScale = new THREE.Vector2(1.35, 1.35);
                 }
                 if (!child.material.roughnessMap) child.material.roughnessMap = specMap;
-                
+
                 // Detailed distinction for Wax Seal Mark vs Envelope Paper
                 if (child.name.indexOf('mark') !== -1 || child.name.indexOf('Object_6') !== -1) {
                   child.material.color = new THREE.Color(0x8C1D2F);
